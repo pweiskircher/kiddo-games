@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Color Snake</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="game-panel" aria-label="Snake game">
+        <nav class="game-nav" aria-label="Games">
+          <a class="game-link" href="/" aria-label="Play snake game">
+            <span class="game-link-icon snake-icon"></span>
+            <span>
+              <strong>Snake Game</strong>
+              <small>Eat dinos</small>
+            </span>
+          </a>
+          <a class="game-link" href="/dino-runner/" aria-label="Play dinosaur lunch game">
+            <span class="game-link-icon dino-launch-icon"></span>
+            <span>
+              <strong>Dino Game</strong>
+              <small>Eat lunch</small>
+            </span>
+          </a>
+        </nav>
+
+        <div class="topbar">
+          <div>
+            <h1>Color Snake</h1>
+            <p>Touch where the snake should go. Grab eggs to turn dinos into cats.</p>
+          </div>
+          <div class="scoreboard" aria-live="polite">
+            <span>Dinos</span>
+            <strong id="score">0</strong>
+          </div>
+        </div>
+
+        <canvas id="game" width="600" height="600" aria-label="Snake board"></canvas>
+
+        <div class="controls">
+          <button id="restart" type="button">Restart</button>
+          <p id="status">Touch and hold where you want the snake to go.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>

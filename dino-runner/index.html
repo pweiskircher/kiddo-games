@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dino Lunch</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="game-panel" aria-label="Dino Lunch game">
+        <nav class="game-nav" aria-label="Games">
+          <a class="game-link" href="/" aria-label="Play snake game">
+            <span class="game-link-icon snake-icon"></span>
+            <span>
+              <strong>Snake Game</strong>
+              <small>Eat dinos</small>
+            </span>
+          </a>
+          <a class="game-link" href="/dino-runner/" aria-label="Play dinosaur lunch game">
+            <span class="game-link-icon dino-launch-icon"></span>
+            <span>
+              <strong>Dino Game</strong>
+              <small>Eat lunch</small>
+            </span>
+          </a>
+        </nav>
+
+        <div class="topbar">
+          <div>
+            <h1>Dino Lunch</h1>
+            <p>Pick a dino, then eat the right snacks.</p>
+          </div>
+          <div class="scoreboard" aria-live="polite">
+            <span>Score</span>
+            <strong id="score">0</strong>
+          </div>
+        </div>
+
+        <div class="dino-picker" aria-label="Choose dinosaur">
+          <button class="dino-option active" type="button" data-dino="trex">
+            <span class="dino-icon trex"></span>
+            <span>T-Rex</span>
+          </button>
+          <button class="dino-option" type="button" data-dino="triceratops">
+            <span class="dino-icon triceratops"></span>
+            <span>Trike</span>
+          </button>
+          <button class="dino-option" type="button" data-dino="stegosaurus">
+            <span class="dino-icon stegosaurus"></span>
+            <span>Stego</span>
+          </button>
+          <button class="dino-option" type="button" data-dino="bronto">
+            <span class="dino-icon bronto"></span>
+            <span>Bronto</span>
+          </button>
+        </div>
+
+        <canvas id="game" width="720" height="720" aria-label="Dino game board"></canvas>
+
+        <div class="controls">
+          <div class="control-buttons">
+            <button id="restart" type="button">Restart</button>
+            <button id="sound" type="button">Sound</button>
+          </div>
+          <p id="status">Touch and hold where your dino should go.</p>
+        </div>
+        <p class="credit">Fart sound: Wikimedia Commons CC0.</p>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
