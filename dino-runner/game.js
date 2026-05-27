@@ -3,10 +3,7 @@ const ctx = canvas.getContext("2d");
 const scoreEl = document.querySelector("#score");
 const statusEl = document.querySelector("#status");
 const restartButton = document.querySelector("#restart");
-const soundButton = document.querySelector("#sound");
 const dinoButtons = [...document.querySelectorAll(".dino-option")];
-const fartAudio = new Audio("assets/farting-sound-effects.webm");
-fartAudio.preload = "auto";
 
 const gridSize = 48;
 const tileCount = canvas.width / gridSize;
@@ -36,98 +33,6 @@ let effectAnimationId;
 let lastEffectFrameAt;
 let pointerPosition;
 let touchPointerId;
-let audioContext;
-let audioReady;
-
-function ensureAudio() {
-  audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
-  if (audioContext.state === "suspended") {
-    audioContext.resume();
-  }
-  unlockAudio();
-  if (fartAudio.readyState === 0) {
-    fartAudio.load();
-  }
-  audioReady = true;
-  soundButton.textContent = "Sound On";
-}
-
-function unlockAudio() {
-  if (!audioContext || audioReady) return;
-
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
-  oscillator.connect(gain).connect(audioContext.destination);
-  oscillator.start();
-  oscillator.stop(audioContext.currentTime + 0.01);
-}
-
-function playTone(frequency, duration = 0.12, type = "sine", volume = 0.16, delay = 0) {
-  if (!audioContext) return;
-
-  const start = audioContext.currentTime + delay;
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  oscillator.type = type;
-  oscillator.frequency.setValueAtTime(frequency, start);
-  gain.gain.setValueAtTime(0.0001, start);
-  gain.gain.exponentialRampToValueAtTime(volume, start + 0.01);
-  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-  oscillator.connect(gain).connect(audioContext.destination);
-  oscillator.start(start);
-  oscillator.stop(start + duration + 0.02);
-}
-
-function playNoise(duration = 0.16, volume = 0.1) {
-  if (!audioContext) return;
-
-  const sampleCount = Math.floor(audioContext.sampleRate * duration);
-  const buffer = audioContext.createBuffer(1, sampleCount, audioContext.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < sampleCount; i += 1) {
-    data[i] = Math.random() * 2 - 1;
-  }
-
-  const source = audioContext.createBufferSource();
-  const gain = audioContext.createGain();
-  source.buffer = buffer;
-  gain.gain.setValueAtTime(volume, audioContext.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
-  source.connect(gain).connect(audioContext.destination);
-  source.start();
-}
-
-function playSound(name) {
-  if (!audioContext) return;
-
-  if (name === "fart") {
-    const fartClip = fartAudio.cloneNode();
-    fartClip.currentTime = 0.35 + Math.random() * 2.5;
-    fartClip.volume = 0.9;
-    window.setTimeout(() => {
-      fartClip.pause();
-      fartClip.currentTime = 0;
-    }, 650);
-    fartClip.play().catch(() => {
-      playTone(105, 0.22, "sawtooth", 0.18);
-      playTone(72, 0.32, "square", 0.12, 0.08);
-      playNoise(0.24, 0.08);
-    });
-  } else if (name === "bleergh") {
-    playTone(240, 0.1, "sawtooth", 0.14);
-    playTone(155, 0.2, "sawtooth", 0.16, 0.06);
-    playTone(92, 0.28, "triangle", 0.12, 0.16);
-    playNoise(0.22, 0.07);
-  } else if (name === "sticks") {
-    playTone(520, 0.05, "square", 0.1);
-    playTone(760, 0.05, "square", 0.09, 0.04);
-    playNoise(0.1, 0.055);
-  } else if (name === "select") {
-    playTone(300, 0.06, "sine", 0.1);
-    playTone(450, 0.08, "sine", 0.09, 0.05);
-  }
-}
 
 function resetGame() {
   dino = { x: 7, y: 7 };
@@ -197,13 +102,11 @@ function eatFood(index) {
     score += 1;
     scoreEl.textContent = score;
     statusEl.textContent = "Yum!";
-    playSound("fart");
     placePoop();
   } else {
     score = Math.max(0, score - 1);
     scoreEl.textContent = score;
     statusEl.textContent = "Bleh!";
-    playSound("bleergh");
     spawnBugs();
   }
 
@@ -214,7 +117,6 @@ function eatPoop(index) {
   poops.splice(index, 1);
   statusEl.textContent = "Ptooey! Sticks!";
   spawnMouthSnakes();
-  playSound("sticks");
   spawnSticks();
 }
 
@@ -409,7 +311,6 @@ function setDirection(newDirection) {
 
 function steerTowardPointer(event) {
   event.preventDefault();
-  ensureAudio();
 
   if (event.pointerType === "touch" && touchPointerId !== event.pointerId) {
     return;
@@ -426,8 +327,6 @@ function steerTowardPointer(event) {
 }
 
 function startTouchControl(event) {
-  ensureAudio();
-
   if (event.pointerType !== "touch") {
     steerTowardPointer(event);
     return;
@@ -887,13 +786,11 @@ function drawSnakeBursts() {
 }
 
 function chooseDino(type) {
-  ensureAudio();
   selectedDino = type;
   dinoButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.dino === type);
   });
   statusEl.textContent = `${dinoTypes[selectedDino].label} likes ${foodLabel(dinoTypes[selectedDino].diet)}.`;
-  playSound("select");
   draw();
 }
 
@@ -907,22 +804,13 @@ window.addEventListener("keydown", (event) => {
 
   if (!directions[event.key]) return;
   event.preventDefault();
-  ensureAudio();
   setDirection(directions[event.key]);
 });
 
 dinoButtons.forEach((button) => {
   button.addEventListener("click", () => chooseDino(button.dataset.dino));
 });
-restartButton.addEventListener("click", () => {
-  ensureAudio();
-  playSound("select");
-  resetGame();
-});
-soundButton.addEventListener("click", () => {
-  ensureAudio();
-  playSound("select");
-});
+restartButton.addEventListener("click", resetGame);
 canvas.addEventListener("pointerdown", startTouchControl);
 canvas.addEventListener("pointermove", steerTowardPointer);
 canvas.addEventListener("pointerup", stopTouchControl);

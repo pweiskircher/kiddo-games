@@ -1,0 +1,21 @@
+{
+  "name": "Dino Lunch",
+  "short_name": "Dino Lunch",
+  "start_url": "/dino-runner/",
+  "scope": "/dino-runner/",
+  "display": "standalone",
+  "background_color": "#17351f",
+  "theme_color": "#bef264",
+  "icons": [
+    {
+      "src": "/dino-runner/icons/dino-lunch-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/dino-runner/icons/dino-lunch-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

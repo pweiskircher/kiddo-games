@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Color Snake</title>
-    <meta name="theme-color" content="#22d3ee">
+    <title>Cat Catcher</title>
+    <meta name="theme-color" content="#fb7185">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Snake Game">
+    <meta name="apple-mobile-web-app-title" content="Cat Catcher">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="data:,">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="apple-touch-icon" href="/icons/kiddo-games-180.png">
+    <link rel="manifest" href="/cat-catcher/site.webmanifest">
+    <link rel="apple-touch-icon" href="/cat-catcher/icons/cat-catcher-180.png">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="shell">
-      <section class="game-panel" aria-label="Snake game">
+      <section class="game-panel" aria-label="Cat Catcher game">
         <nav class="game-nav" aria-label="Games">
           <a class="game-link" href="/" aria-label="Play snake game">
             <span class="game-link-icon snake-icon"></span>
@@ -43,20 +43,20 @@
 
         <div class="topbar">
           <div>
-            <h1>Color Snake</h1>
-            <p>Touch where the snake should go. Grab eggs to turn dinos into cats.</p>
+            <h1>Cat Catcher</h1>
+            <p>Touch where the cat should run and catch the mice.</p>
           </div>
           <div class="scoreboard" aria-live="polite">
-            <span>Dinos</span>
+            <span>Mice</span>
             <strong id="score">0</strong>
           </div>
         </div>
 
-        <canvas id="game" width="600" height="600" aria-label="Snake board"></canvas>
+        <canvas id="game" width="720" height="720" aria-label="Cat game board"></canvas>
 
         <div class="controls">
           <button id="restart" type="button">Restart</button>
-          <p id="status">Touch and hold where you want the snake to go.</p>
+          <p id="status">Touch and hold where your cat should go.</p>
         </div>
       </section>
     </main>

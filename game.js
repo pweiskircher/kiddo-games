@@ -40,52 +40,6 @@ let petMode;
 let petModeTimerId;
 let bugMode;
 let bugModeTimerId;
-let audioContext;
-
-function ensureAudio() {
-  audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
-  if (audioContext.state === "suspended") {
-    audioContext.resume();
-  }
-}
-
-function playTone(frequency, duration = 0.1, type = "sine", volume = 0.07, delay = 0) {
-  if (!audioContext) return;
-
-  const start = audioContext.currentTime + delay;
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  oscillator.type = type;
-  oscillator.frequency.setValueAtTime(frequency, start);
-  gain.gain.setValueAtTime(0.0001, start);
-  gain.gain.exponentialRampToValueAtTime(volume, start + 0.01);
-  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-  oscillator.connect(gain).connect(audioContext.destination);
-  oscillator.start(start);
-  oscillator.stop(start + duration + 0.02);
-}
-
-function playSound(name) {
-  if (!audioContext) return;
-
-  if (name === "eat") {
-    playTone(520, 0.07, "triangle", 0.07);
-    playTone(720, 0.08, "triangle", 0.06, 0.05);
-  } else if (name === "egg") {
-    playTone(330, 0.08, "sine", 0.07);
-    playTone(660, 0.12, "sine", 0.06, 0.08);
-    playTone(990, 0.1, "sine", 0.05, 0.16);
-  } else if (name === "dogs") {
-    playTone(220, 0.08, "square", 0.06);
-    playTone(180, 0.08, "square", 0.055, 0.1);
-  } else if (name === "win") {
-    [440, 554, 659, 880].forEach((frequency, index) => {
-      playTone(frequency, 0.16, "triangle", 0.065, index * 0.08);
-    });
-  } else if (name === "select") {
-    playTone(360, 0.06, "sine", 0.045);
-  }
-}
 
 function resetGame() {
   snake = startSnake.map((segment) => ({ ...segment }));
@@ -139,7 +93,6 @@ function winGame() {
   stopBugModeTimer();
   stopLoop();
   statusEl.textContent = "You win! Press Restart to play again.";
-  playSound("win");
   startWinAnimation();
 }
 
@@ -166,7 +119,6 @@ function tick() {
     score += 1;
     scoreEl.textContent = score;
     dinos.splice(eatenDinoIndex, 1);
-    playSound("eat");
 
     if (score < winScore) {
       placeDino();
@@ -179,13 +131,11 @@ function tick() {
   } else if (ateEgg) {
     egg = null;
     activatePetMode();
-    playSound("egg");
     snake.pop();
   } else if (atePoop) {
     poop = null;
     score += 1;
     scoreEl.textContent = score;
-    playSound("eat");
     activateBugMode();
     if (score >= winScore && dinos.length === 0) {
       winGame();
@@ -353,7 +303,6 @@ function setDirection(newDirection) {
 
 function steerTowardPointer(event) {
   event.preventDefault();
-  ensureAudio();
 
   if (won) return;
 
@@ -372,8 +321,6 @@ function steerTowardPointer(event) {
 }
 
 function startTouchControl(event) {
-  ensureAudio();
-
   if (won) return;
 
   if (event.pointerType !== "touch") {
@@ -1027,15 +974,10 @@ window.addEventListener("keydown", (event) => {
 
   if (!directions[event.key]) return;
   event.preventDefault();
-  ensureAudio();
   setDirection(directions[event.key]);
 });
 
-restartButton.addEventListener("click", () => {
-  ensureAudio();
-  playSound("select");
-  resetGame();
-});
+restartButton.addEventListener("click", resetGame);
 canvas.addEventListener("pointerdown", startTouchControl);
 canvas.addEventListener("pointermove", steerTowardPointer);
 canvas.addEventListener("pointerup", stopTouchControl);

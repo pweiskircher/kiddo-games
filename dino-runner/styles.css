@@ -53,7 +53,7 @@ body {
 
 .game-nav {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -146,6 +146,28 @@ body {
   box-shadow: -25px 15px 0 -6px #fbbf24;
 }
 
+.cat-launch-icon::before {
+  content: "";
+  width: 30px;
+  height: 24px;
+  position: absolute;
+  left: 7px;
+  bottom: 4px;
+  border-radius: 50%;
+  background: #f9a8d4;
+}
+
+.cat-launch-icon::after {
+  content: "";
+  width: 31px;
+  height: 24px;
+  position: absolute;
+  left: 10px;
+  top: 2px;
+  background: #f9a8d4;
+  clip-path: polygon(0 100%, 8% 20%, 28% 68%, 72% 68%, 92% 20%, 100% 100%);
+}
+
 .topbar,
 .controls {
   display: flex;
@@ -171,13 +193,8 @@ h1 {
 }
 
 .topbar p,
-.controls p,
-.credit {
+.controls p {
   color: var(--muted);
-}
-
-.credit {
-  font-size: 0.75rem;
 }
 
 .scoreboard {

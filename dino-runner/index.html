@@ -4,7 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dino Lunch</title>
+    <meta name="theme-color" content="#bef264">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Dino Lunch">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="data:,">
+    <link rel="manifest" href="/dino-runner/site.webmanifest">
+    <link rel="apple-touch-icon" href="/dino-runner/icons/dino-lunch-180.png">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -23,6 +30,13 @@
             <span>
               <strong>Dino Game</strong>
               <small>Eat lunch</small>
+            </span>
+          </a>
+          <a class="game-link" href="/cat-catcher/" aria-label="Play cat game">
+            <span class="game-link-icon cat-launch-icon"></span>
+            <span>
+              <strong>Cat Game</strong>
+              <small>Catch mice</small>
             </span>
           </a>
         </nav>
@@ -60,13 +74,9 @@
         <canvas id="game" width="720" height="720" aria-label="Dino game board"></canvas>
 
         <div class="controls">
-          <div class="control-buttons">
-            <button id="restart" type="button">Restart</button>
-            <button id="sound" type="button">Sound</button>
-          </div>
+          <button id="restart" type="button">Restart</button>
           <p id="status">Touch and hold where your dino should go.</p>
         </div>
-        <p class="credit">Fart sound: Wikimedia Commons CC0.</p>
       </section>
     </main>
 
