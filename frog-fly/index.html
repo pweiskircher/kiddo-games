@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dino Lunch</title>
-    <meta name="theme-color" content="#bef264">
+    <title>Frog Catcher</title>
+    <meta name="theme-color" content="#22c55e">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Dino Lunch">
+    <meta name="apple-mobile-web-app-title" content="Frog Catcher">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="data:,">
-    <link rel="manifest" href="/dino-runner/site.webmanifest">
-    <link rel="apple-touch-icon" href="/dino-runner/icons/dino-lunch-180.png">
+    <link rel="manifest" href="/frog-fly/site.webmanifest">
+    <link rel="apple-touch-icon" href="/frog-fly/icons/frog-fly-180.png">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="shell">
-      <section class="game-panel" aria-label="Dino Lunch game">
+      <section class="game-panel" aria-label="Frog Catcher game">
         <nav class="game-nav" aria-label="Games">
           <a class="game-link" href="/" aria-label="Play snake game">
             <span class="game-link-icon snake-icon"></span>
@@ -50,39 +50,20 @@
 
         <div class="topbar">
           <div>
-            <h1>Dino Lunch</h1>
-            <p>Pick a dino, then eat the right snacks.</p>
+            <h1>Frog Catcher</h1>
+            <p>Touch where the frog should hop and catch the flies.</p>
           </div>
           <div class="scoreboard" aria-live="polite">
-            <span>Score</span>
+            <span>Flies</span>
             <strong id="score">0</strong>
           </div>
         </div>
 
-        <div class="dino-picker" aria-label="Choose dinosaur">
-          <button class="dino-option active" type="button" data-dino="trex">
-            <span class="dino-icon trex"></span>
-            <span>T-Rex</span>
-          </button>
-          <button class="dino-option" type="button" data-dino="triceratops">
-            <span class="dino-icon triceratops"></span>
-            <span>Trike</span>
-          </button>
-          <button class="dino-option" type="button" data-dino="stegosaurus">
-            <span class="dino-icon stegosaurus"></span>
-            <span>Stego</span>
-          </button>
-          <button class="dino-option" type="button" data-dino="bronto">
-            <span class="dino-icon bronto"></span>
-            <span>Bronto</span>
-          </button>
-        </div>
-
-        <canvas id="game" width="720" height="720" aria-label="Dino game board"></canvas>
+        <canvas id="game" width="720" height="720" aria-label="Frog game board"></canvas>
 
         <div class="controls">
           <button id="restart" type="button">Restart</button>
-          <p id="status">Touch and hold where your dino should go.</p>
+          <p id="status">Touch and hold where your frog should go.</p>
         </div>
       </section>
     </main>

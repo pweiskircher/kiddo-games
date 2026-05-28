@@ -53,7 +53,7 @@ body {
 
 .game-nav {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -166,6 +166,33 @@ body {
   top: 2px;
   background: #f9a8d4;
   clip-path: polygon(0 100%, 8% 20%, 28% 68%, 72% 68%, 92% 20%, 100% 100%);
+}
+
+.frog-launch-icon::before {
+  content: "";
+  width: 34px;
+  height: 26px;
+  position: absolute;
+  left: 6px;
+  bottom: 3px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.frog-launch-icon::after {
+  content: "";
+  width: 38px;
+  height: 23px;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  border-radius: 999px 999px 14px 14px;
+  background: #16a34a;
+  box-shadow:
+    8px -4px 0 -2px #f8fafc,
+    10px -4px 0 1px #111827,
+    28px -4px 0 -2px #f8fafc,
+    26px -4px 0 1px #111827;
 }
 
 .topbar,
