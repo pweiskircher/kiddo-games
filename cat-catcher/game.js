@@ -5,13 +5,16 @@ const statusEl = document.querySelector("#status");
 const restartButton = document.querySelector("#restart");
 
 const mouseCount = 4;
+const birdCount = 2;
 const catSpeed = 4.2;
 const mouseSpeed = 1.45;
+const birdSpeed = 2.2;
 const catchDistance = 46;
 const gooseDuration = 70;
 
 let cat;
 let mice;
+let birds;
 let geese;
 let score;
 let pointerPosition;
@@ -25,6 +28,7 @@ function resetGame() {
     angle: 0,
   };
   mice = [];
+  birds = [];
   geese = [];
   score = 0;
   pointerPosition = null;
@@ -32,6 +36,7 @@ function resetGame() {
   scoreEl.textContent = score;
   statusEl.textContent = "Touch and hold where your cat should go.";
   placeMice();
+  placeBirds();
   startAnimation();
 }
 
@@ -59,6 +64,24 @@ function createMouse() {
   return mouse;
 }
 
+function placeBirds() {
+  while (birds.length < birdCount) {
+    birds.push(createBird());
+  }
+}
+
+function createBird() {
+  const padding = 80;
+  return {
+    x: padding + Math.random() * (canvas.width - padding * 2),
+    y: padding + Math.random() * (canvas.height - padding * 2),
+    angle: Math.random() * Math.PI * 2,
+    turnTimer: 18 + Math.random() * 45,
+    flap: Math.random() * Math.PI * 2,
+    color: ["#60a5fa", "#fbbf24", "#f472b6", "#5eead4"][birds.length % 4],
+  };
+}
+
 function startAnimation() {
   if (animationId) return;
 
@@ -74,6 +97,7 @@ function startAnimation() {
 function update() {
   updateCat();
   updateMice();
+  updateBirds();
   updateGeese();
   checkCatches();
 }
@@ -97,8 +121,7 @@ function updateMice() {
   mice.forEach((mouse) => {
     mouse.turnTimer -= 1;
     if (mouse.turnTimer <= 0) {
-      const awayFromCat = Math.atan2(mouse.y - cat.y, mouse.x - cat.x);
-      mouse.angle = awayFromCat + (Math.random() - 0.5) * 1.8;
+      mouse.angle = roamingAngle(mouse, 95, 1.7);
       mouse.turnTimer = 24 + Math.random() * 55;
     }
 
@@ -115,6 +138,54 @@ function updateMice() {
     mouse.x = clamp(mouse.x, 32, canvas.width - 32);
     mouse.y = clamp(mouse.y, 32, canvas.height - 32);
   });
+}
+
+function updateBirds() {
+  birds.forEach((bird) => {
+    bird.turnTimer -= 1;
+    if (bird.turnTimer <= 0) {
+      bird.angle = roamingAngle(bird, 115, 2.3);
+      bird.turnTimer = 18 + Math.random() * 42;
+    }
+
+    bird.x += Math.cos(bird.angle) * birdSpeed;
+    bird.y += Math.sin(bird.angle) * birdSpeed;
+    bird.flap += 0.35;
+
+    if (bird.x < 38 || bird.x > canvas.width - 38) {
+      bird.angle = Math.PI - bird.angle;
+    }
+    if (bird.y < 38 || bird.y > canvas.height - 38) {
+      bird.angle = -bird.angle;
+    }
+
+    bird.x = clamp(bird.x, 38, canvas.width - 38);
+    bird.y = clamp(bird.y, 38, canvas.height - 38);
+  });
+}
+
+function roamingAngle(creature, edgePadding, wanderAmount) {
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+  const nearEdge =
+    creature.x < edgePadding ||
+    creature.x > canvas.width - edgePadding ||
+    creature.y < edgePadding ||
+    creature.y > canvas.height - edgePadding;
+
+  if (nearEdge) {
+    return Math.atan2(centerY - creature.y, centerX - creature.x) + (Math.random() - 0.5) * 0.9;
+  }
+
+  const awayFromCat = Math.atan2(creature.y - cat.y, creature.x - cat.x);
+  const randomWander = creature.angle + (Math.random() - 0.5) * wanderAmount;
+  const catDistance = Math.hypot(creature.x - cat.x, creature.y - cat.y);
+
+  if (catDistance < 150) {
+    return awayFromCat * 0.65 + randomWander * 0.35;
+  }
+
+  return randomWander;
 }
 
 function updateGeese() {
@@ -145,6 +216,20 @@ function checkCatches() {
       mice.push(createMouse());
     }
   }
+
+  for (let i = birds.length - 1; i >= 0; i -= 1) {
+    const bird = birds[i];
+    const distance = Math.hypot(bird.x - cat.x, bird.y - cat.y);
+
+    if (distance <= catchDistance) {
+      birds.splice(i, 1);
+      score += 1;
+      scoreEl.textContent = score;
+      statusEl.textContent = "Toot geese!";
+      spawnGeese();
+      birds.push(createBird());
+    }
+  }
 }
 
 function spawnGeese() {
@@ -166,6 +251,7 @@ function spawnGeese() {
 function draw() {
   drawBackground();
   drawMice();
+  drawBirds();
   drawCat();
   drawGeese();
 }
@@ -236,6 +322,46 @@ function drawMice() {
     ctx.beginPath();
     ctx.arc(13, -7, 3, 0, Math.PI * 2);
     ctx.arc(13, 7, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+}
+
+function drawBirds() {
+  birds.forEach((bird) => {
+    const wing = Math.sin(bird.flap) * 10;
+
+    ctx.save();
+    ctx.translate(bird.x, bird.y);
+    ctx.rotate(bird.angle);
+
+    ctx.fillStyle = bird.color;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 27, 18, 0, 0, Math.PI * 2);
+    ctx.roundRect(17, -12, 20, 24, 10);
+    ctx.fill();
+
+    ctx.strokeStyle = bird.color;
+    ctx.lineWidth = 8;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-4, -5);
+    ctx.lineTo(-29, -21 - wing);
+    ctx.moveTo(-4, 5);
+    ctx.lineTo(-29, 21 + wing);
+    ctx.stroke();
+
+    ctx.fillStyle = "#f97316";
+    ctx.beginPath();
+    ctx.moveTo(35, -6);
+    ctx.lineTo(48, 0);
+    ctx.lineTo(35, 6);
+    ctx.fill();
+
+    ctx.fillStyle = "#111827";
+    ctx.beginPath();
+    ctx.arc(27, -5, 2.5, 0, Math.PI * 2);
+    ctx.arc(27, 5, 2.5, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
   });

@@ -1,6 +1,6 @@
 {
-  "name": "Cat Catcher",
-  "short_name": "Cat Game",
+  "name": "Mouse Catcher",
+  "short_name": "Mouse Catcher",
   "start_url": "/cat-catcher/",
   "scope": "/cat-catcher/",
   "display": "standalone",
@@ -8,12 +8,12 @@
   "theme_color": "#fb7185",
   "icons": [
     {
-      "src": "/cat-catcher/icons/cat-catcher-192.png",
+      "src": "/cat-catcher/icons/mouse-catcher-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/cat-catcher/icons/cat-catcher-512.png",
+      "src": "/cat-catcher/icons/mouse-catcher-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
