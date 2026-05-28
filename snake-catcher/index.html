@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Frog Catcher</title>
-    <meta name="theme-color" content="#22c55e">
+    <title>Snake Catcher</title>
+    <meta name="theme-color" content="#a3e635">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Frog Catcher">
+    <meta name="apple-mobile-web-app-title" content="Snake Catcher">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="data:,">
-    <link rel="manifest" href="/frog-fly/site.webmanifest">
-    <link rel="apple-touch-icon" href="/frog-fly/icons/frog-fly-180.png">
+    <link rel="manifest" href="/snake-catcher/site.webmanifest">
+    <link rel="apple-touch-icon" href="/snake-catcher/icons/snake-catcher-180.png">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="shell">
-      <section class="game-panel" aria-label="Frog Catcher game">
+      <section class="game-panel" aria-label="Snake Catcher game">
         <nav class="game-nav" aria-label="Games">
           <a class="game-link" href="/" aria-label="Play snake game">
             <span class="game-link-icon snake-icon"></span>
@@ -57,20 +57,20 @@
 
         <div class="topbar">
           <div>
-            <h1>Frog Catcher</h1>
-            <p>Touch where the frog should hop and catch the flies.</p>
+            <h1>Snake Catcher</h1>
+            <p>Catch mice, grab frogs, and become a giant snake.</p>
           </div>
           <div class="scoreboard" aria-live="polite">
-            <span>Flies</span>
+            <span>Mice</span>
             <strong id="score">0</strong>
           </div>
         </div>
 
-        <canvas id="game" width="720" height="720" aria-label="Frog game board"></canvas>
+        <canvas id="game" width="720" height="720" aria-label="Snake Catcher game board"></canvas>
 
         <div class="controls">
           <button id="restart" type="button">Restart</button>
-          <p id="status">Touch and hold where your frog should go.</p>
+          <p id="status">Touch and hold where your snake should go.</p>
         </div>
       </section>
     </main>

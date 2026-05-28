@@ -1,14 +1,11 @@
 :root {
   color-scheme: dark;
-  --leaf: #86efac;
-  --fern: #22c55e;
-  --mud: #594025;
-  --stone: #40545b;
-  --sky: #c4f1e1;
-  --panel: rgba(22, 34, 24, 0.88);
+  --panel: rgba(11, 20, 35, 0.88);
   --text: #fff7ed;
-  --muted: #d6e4c8;
-  --amber: #fbbf24;
+  --muted: #d9f99d;
+  --pink: #a3e635;
+  --mint: #5eead4;
+  --gold: #fbbf24;
 }
 
 * {
@@ -27,9 +24,10 @@ body {
     sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at 15% 14%, rgba(134, 239, 172, 0.28), transparent 23rem),
-    radial-gradient(circle at 80% 20%, rgba(251, 191, 36, 0.25), transparent 18rem),
-    linear-gradient(140deg, #17351f 0%, #28462e 40%, #4d3a25 100%);
+    radial-gradient(circle at 18% 12%, rgba(163, 230, 53, 0.3), transparent 24rem),
+    radial-gradient(circle at 82% 24%, rgba(94, 234, 212, 0.22), transparent 20rem),
+    radial-gradient(circle at 48% 88%, rgba(251, 191, 36, 0.16), transparent 22rem),
+    linear-gradient(135deg, #101728, #18243b 45%, #132f2c);
 }
 
 .shell {
@@ -73,8 +71,8 @@ body {
 
 .game-link:hover,
 .game-link:focus-visible {
-  color: #17200f;
-  background: linear-gradient(135deg, #bef264, #5eead4);
+  color: #07170e;
+  background: linear-gradient(135deg, #86efac, #38bdf8);
 }
 
 .game-link strong,
@@ -227,12 +225,6 @@ body {
   gap: 16px;
 }
 
-.control-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
 h1,
 p {
   margin: 0;
@@ -270,166 +262,16 @@ h1 {
   line-height: 1;
 }
 
-.dino-picker {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.dino-option {
-  min-height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border: 1px solid rgba(255, 247, 237, 0.14);
-  border-radius: 8px;
-  color: var(--text);
-  font: inherit;
-  font-weight: 800;
-  background: rgba(255, 247, 237, 0.08);
-  cursor: pointer;
-}
-
-.dino-option.active {
-  color: #17200f;
-  background: linear-gradient(135deg, #bef264, #5eead4, #fbbf24);
-}
-
-.dino-icon {
-  width: 34px;
-  height: 26px;
-  display: inline-block;
-  border-radius: 50% 45% 45% 40%;
-  background: #22c55e;
-  position: relative;
-  flex: 0 0 auto;
-}
-
-.dino-icon::before {
-  content: "";
-  position: absolute;
-}
-
-.dino-icon::after {
-  content: "";
-  position: absolute;
-}
-
-.dino-icon.trex {
-  width: 34px;
-  height: 20px;
-  border-radius: 13px 9px 11px 12px;
-  background: #ef4444;
-}
-
-.dino-icon.trex::before {
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  right: -6px;
-  top: -7px;
-  border-radius: 7px 8px 5px 5px;
-  background: inherit;
-}
-
-.dino-icon.trex::after {
-  width: 12px;
-  height: 12px;
-  left: -8px;
-  top: 4px;
-  clip-path: polygon(100% 0, 0 45%, 100% 100%);
-  background: inherit;
-}
-
-.dino-icon.triceratops {
-  width: 34px;
-  height: 20px;
-  border-radius: 13px 10px 11px 12px;
-  background: #38bdf8;
-}
-
-.dino-icon.triceratops::before {
-  width: 17px;
-  height: 21px;
-  right: 0;
-  top: -7px;
-  border-radius: 50%;
-  background: #0ea5e9;
-}
-
-.dino-icon.triceratops::after {
-  width: 18px;
-  height: 12px;
-  right: -10px;
-  top: -8px;
-  background: #fef3c7;
-  clip-path: polygon(0 100%, 18% 0, 34% 100%, 62% 8%, 75% 100%, 100% 52%, 100% 72%);
-}
-
-.dino-icon.stegosaurus {
-  width: 36px;
-  height: 20px;
-  border-radius: 14px 10px 12px 12px;
-  background: #fbbf24;
-}
-
-.dino-icon.stegosaurus::before {
-  width: 28px;
-  height: 13px;
-  left: 3px;
-  top: -10px;
-  background: #f97316;
-  clip-path: polygon(0 100%, 10% 8%, 22% 100%, 35% 8%, 48% 100%, 62% 8%, 76% 100%, 90% 8%, 100% 100%);
-}
-
-.dino-icon.stegosaurus::after {
-  width: 11px;
-  height: 11px;
-  right: -5px;
-  top: 2px;
-  border-radius: 50%;
-  background: inherit;
-}
-
-.dino-icon.bronto {
-  width: 34px;
-  height: 19px;
-  border-radius: 15px 13px 12px 12px;
-  background: #a78bfa;
-}
-
-.dino-icon.bronto::before {
-  width: 7px;
-  height: 25px;
-  right: 1px;
-  top: -17px;
-  border-radius: 8px;
-  background: inherit;
-  transform: rotate(24deg);
-  transform-origin: bottom center;
-}
-
-.dino-icon.bronto::after {
-  width: 14px;
-  height: 10px;
-  right: -8px;
-  top: -19px;
-  border-radius: 8px;
-  background: inherit;
-}
-
 canvas {
   width: 100%;
   aspect-ratio: 1;
   display: block;
   border: 2px solid rgba(255, 247, 237, 0.18);
   border-radius: 8px;
-  background: #264a2f;
+  background: #101728;
   touch-action: none;
   user-select: none;
-  box-shadow: inset 0 0 50px rgba(12, 24, 14, 0.38);
+  box-shadow: inset 0 0 50px rgba(10, 8, 14, 0.38);
 }
 
 button {
@@ -437,10 +279,10 @@ button {
   padding: 0 18px;
   border: 0;
   border-radius: 8px;
-  color: #17200f;
+  color: #07170e;
   font-weight: 900;
   cursor: pointer;
-  background: linear-gradient(135deg, #bef264, #fbbf24);
+  background: linear-gradient(135deg, #86efac, #38bdf8);
 }
 
 button:focus-visible {
@@ -448,7 +290,7 @@ button:focus-visible {
   outline-offset: 3px;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 680px) {
   .shell {
     padding: 10px;
   }
@@ -465,10 +307,6 @@ button:focus-visible {
 
   .scoreboard {
     justify-items: start;
-  }
-
-  .dino-picker {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .game-nav {

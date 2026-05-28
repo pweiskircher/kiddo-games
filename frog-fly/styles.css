@@ -50,7 +50,7 @@ body {
 
 .game-nav {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -190,6 +190,30 @@ body {
     10px -4px 0 1px #111827,
     28px -4px 0 -2px #f8fafc,
     26px -4px 0 1px #111827;
+}
+
+.snake-catcher-icon::before {
+  content: "";
+  position: absolute;
+  inset: 8px 4px;
+  border: 8px solid #a3e635;
+  border-left-color: transparent;
+  border-radius: 999px;
+  transform: rotate(14deg);
+}
+
+.snake-catcher-icon::after {
+  content: "";
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  right: 2px;
+  bottom: 4px;
+  border-radius: 50%;
+  background: #84cc16;
+  box-shadow:
+    4px 4px 0 -3px #111827,
+    -29px -12px 0 -4px #cbd5e1;
 }
 
 .topbar,
