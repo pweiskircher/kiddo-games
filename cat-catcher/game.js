@@ -6,15 +6,18 @@ const restartButton = document.querySelector("#restart");
 
 const mouseCount = 4;
 const birdCount = 2;
+const bugCount = 3;
 const catSpeed = 4.2;
 const mouseSpeed = 1.45;
 const birdSpeed = 2.2;
+const bugSpeed = 2.75;
 const catchDistance = 46;
 const gooseDuration = 70;
 
 let cat;
 let mice;
 let birds;
+let bugs;
 let geese;
 let score;
 let pointerPosition;
@@ -29,6 +32,7 @@ function resetGame() {
   };
   mice = [];
   birds = [];
+  bugs = [];
   geese = [];
   score = 0;
   pointerPosition = null;
@@ -37,6 +41,7 @@ function resetGame() {
   statusEl.textContent = "Touch and hold where your cat should go.";
   placeMice();
   placeBirds();
+  placeBugs();
   startAnimation();
 }
 
@@ -82,6 +87,24 @@ function createBird() {
   };
 }
 
+function placeBugs() {
+  while (bugs.length < bugCount) {
+    bugs.push(createBug());
+  }
+}
+
+function createBug() {
+  const padding = 75;
+  return {
+    x: padding + Math.random() * (canvas.width - padding * 2),
+    y: padding + Math.random() * (canvas.height - padding * 2),
+    angle: Math.random() * Math.PI * 2,
+    turnTimer: 12 + Math.random() * 32,
+    wiggle: Math.random() * Math.PI * 2,
+    color: ["#34d399", "#a3e635", "#f87171", "#c084fc", "#22d3ee"][bugs.length % 5],
+  };
+}
+
 function startAnimation() {
   if (animationId) return;
 
@@ -98,6 +121,7 @@ function update() {
   updateCat();
   updateMice();
   updateBirds();
+  updateBugs();
   updateGeese();
   checkCatches();
 }
@@ -161,6 +185,31 @@ function updateBirds() {
 
     bird.x = clamp(bird.x, 38, canvas.width - 38);
     bird.y = clamp(bird.y, 38, canvas.height - 38);
+  });
+}
+
+function updateBugs() {
+  bugs.forEach((bug) => {
+    bug.turnTimer -= 1;
+    if (bug.turnTimer <= 0) {
+      bug.angle = roamingAngle(bug, 105, 2.8);
+      bug.turnTimer = 12 + Math.random() * 34;
+    }
+
+    bug.wiggle += 0.55;
+    const skitterAngle = bug.angle + Math.sin(bug.wiggle) * 0.42;
+    bug.x += Math.cos(skitterAngle) * bugSpeed;
+    bug.y += Math.sin(skitterAngle) * bugSpeed;
+
+    if (bug.x < 34 || bug.x > canvas.width - 34) {
+      bug.angle = Math.PI - bug.angle;
+    }
+    if (bug.y < 34 || bug.y > canvas.height - 34) {
+      bug.angle = -bug.angle;
+    }
+
+    bug.x = clamp(bug.x, 34, canvas.width - 34);
+    bug.y = clamp(bug.y, 34, canvas.height - 34);
   });
 }
 
@@ -230,6 +279,20 @@ function checkCatches() {
       birds.push(createBird());
     }
   }
+
+  for (let i = bugs.length - 1; i >= 0; i -= 1) {
+    const bug = bugs[i];
+    const distance = Math.hypot(bug.x - cat.x, bug.y - cat.y);
+
+    if (distance <= catchDistance) {
+      bugs.splice(i, 1);
+      score += 1;
+      scoreEl.textContent = score;
+      statusEl.textContent = "Toot geese!";
+      spawnGeese();
+      bugs.push(createBug());
+    }
+  }
 }
 
 function spawnGeese() {
@@ -252,6 +315,7 @@ function draw() {
   drawBackground();
   drawMice();
   drawBirds();
+  drawBugs();
   drawCat();
   drawGeese();
 }
@@ -363,6 +427,60 @@ function drawBirds() {
     ctx.arc(27, -5, 2.5, 0, Math.PI * 2);
     ctx.arc(27, 5, 2.5, 0, Math.PI * 2);
     ctx.fill();
+    ctx.restore();
+  });
+}
+
+function drawBugs() {
+  bugs.forEach((bug) => {
+    const legSwing = Math.sin(bug.wiggle) * 5;
+
+    ctx.save();
+    ctx.translate(bug.x, bug.y);
+    ctx.rotate(bug.angle);
+
+    ctx.strokeStyle = "#111827";
+    ctx.lineWidth = 4;
+    ctx.lineCap = "round";
+    for (let i = -1; i <= 1; i += 1) {
+      const legX = -7 + i * 9;
+      ctx.beginPath();
+      ctx.moveTo(legX, -8);
+      ctx.lineTo(legX - 9, -18 - legSwing);
+      ctx.moveTo(legX, 8);
+      ctx.lineTo(legX - 9, 18 + legSwing);
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = bug.color;
+    ctx.beginPath();
+    ctx.ellipse(-7, 0, 18, 14, 0, 0, Math.PI * 2);
+    ctx.ellipse(13, 0, 15, 12, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = "rgba(255, 247, 237, 0.55)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(-6, -11);
+    ctx.lineTo(-6, 11);
+    ctx.moveTo(10, -9);
+    ctx.lineTo(10, 9);
+    ctx.stroke();
+
+    ctx.fillStyle = "#111827";
+    ctx.beginPath();
+    ctx.arc(22, -4, 2.5, 0, Math.PI * 2);
+    ctx.arc(22, 4, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = "#111827";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(25, -6);
+    ctx.lineTo(35, -15);
+    ctx.moveTo(25, 6);
+    ctx.lineTo(35, 15);
+    ctx.stroke();
     ctx.restore();
   });
 }
